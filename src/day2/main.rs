@@ -1,5 +1,5 @@
 fn main() {
-    let games = read_text().unwrap();
+    let games = read_puzzle_input_from_file().unwrap();
 
     total_score(&games).unwrap();
 }
@@ -36,9 +36,10 @@ fn total_score(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
         // win
         if player > opponent {
             // loss
-            if opponent == 1 && player == 3 {
+            if player == 3 && opponent == 1 {
                 game_score = player;
             } else {
+                // win
                 game_score = player + 6;
             }
         } else
@@ -48,6 +49,7 @@ fn total_score(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
             if opponent == 3 && player == 1 {
                 game_score = player + 6;
             } else {
+                // loss
                 game_score = player;
             }
         }
@@ -67,7 +69,7 @@ fn total_score(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
 // A rock, Y paper,  B paper,  X rock, C scissors, Z scissors
 // your total score is the sum of your scores for each round.
 // 1 for rock, 2 for paper, 3 for scissors
-fn read_text() -> Result<Vec<Game>, Box<dyn std::error::Error>> {
+fn read_puzzle_input_from_file() -> Result<Vec<Game>, Box<dyn std::error::Error>> {
     let contents = std::fs::read_to_string("rock_paper_scissors.txt")?;
 
     let mut games = Vec::<Game>::new();
