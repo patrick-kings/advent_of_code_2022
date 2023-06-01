@@ -97,7 +97,7 @@ fn read_elf_calories() -> Result<Vec<Elf>, Box<dyn std::error::Error>> {
     Ok(elfs)
 }
 
-#[derive(Debug, PartialEq, PartialOrd)]
+#[derive(Debug)]
 pub struct Elf {
     pub total_calories: i32,
     pub calories: Vec<i32>,

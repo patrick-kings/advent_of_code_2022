@@ -6,11 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-error-chain = "0.12.4"
-futures = "0.3.28"
-reqwest = {version = "0.11.18", features = ["blocking"]}
-select = "0.6.0"
-tokio = "1.28.2"
+
 
 
 
@@ -21,4 +17,6 @@ path = "src/day1/main.rs"
 
 
 
-
+[[bin]]
+name = "day2"
+path = "src/day2/main.rs"
