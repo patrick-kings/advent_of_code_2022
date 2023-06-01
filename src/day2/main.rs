@@ -1,13 +1,53 @@
 fn main() {
     let games = read_puzzle_input_from_file().unwrap();
 
-    total_score(&games).unwrap();
+    total_score_part_1(&games).unwrap();
+
+    total_score_part_2(&games).unwrap();
 }
 
-fn total_score(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
-    let mut score = 0;
+// X 'lose', Y 'draw', Z 'win'
+fn total_score_part_2(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
+    let mut total_player_score = 0;
 
-    for (_i, game) in games.iter().enumerate() {
+    for game in games {
+        //
+        let opponent: i32 = match game.opponent {
+            'A' => 1,
+            'B' => 2,
+            'C' => 3,
+            _other => 0,
+        };
+
+        let game_score = match game.player {
+            // loss
+            'X' => match opponent {
+                1 => 3 + 0,
+                2 => 1 + 0,
+                3 => 2 + 0,
+                _other => 0,
+            },
+            // draw
+            'Y' => opponent + 3,
+            // win
+            'Z' => match opponent {
+                1 => 2 + 6,
+                2 => 3 + 6,
+                3 => 1 + 6,
+                _other => 0,
+            },
+            _other => 0,
+        };
+        total_player_score += game_score;
+    }
+    println!("total player score part 2 is {}", total_player_score);
+    Ok(())
+}
+
+fn total_score_part_1(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
+    let mut total_player_score = 0;
+
+    for game in games {
         let mut game_score = 0;
 
         //
@@ -31,7 +71,7 @@ fn total_score(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
 
         // draw
         if opponent == player {
-            game_score = opponent + player;
+            game_score = 3 + player;
         } else
         // win
         if player > opponent {
@@ -54,14 +94,10 @@ fn total_score(games: &Vec<Game>) -> Result<(), Box<dyn std::error::Error>> {
             }
         }
 
-        println!(
-            "score {} game_score {} opponent {} player {}",
-            score, game_score, opponent, player
-        );
-        score += game_score;
+        total_player_score += game_score;
     }
 
-    println!("{}", score);
+    println!("total player score part 1 is {}", total_player_score);
 
     Ok(())
 }
@@ -88,7 +124,7 @@ fn read_puzzle_input_from_file() -> Result<Vec<Game>, Box<dyn std::error::Error>
         i += 1;
     }
 
-    println!("{:?}", games[0]);
+    println!("first index of puzzle data is '{:?}'", games[0]);
 
     Ok(games)
 }
